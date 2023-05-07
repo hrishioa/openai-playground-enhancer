@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        width: 200px;
+        text-align: center;
+        padding: 10px;
+      }
+      button {
+        width: 100%;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Export Messages</h1>
+    <div id="chatModeActions">
+      <button id="exportBtn">Download as JSON</button>
+      <input type="file" id="importFile" style="display: none;">
+      <button id="loadBtn">Load from JSON</button>
+    </div>
+    <div id="unsupportedMode" style="display: none;">
+      Only chat message saving is supported.
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>

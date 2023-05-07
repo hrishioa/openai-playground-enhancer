@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "OpenAI Playground Enhancer",
+  "version": "0.1.0",
+  "description": "Add save, load and library functionality to OpenAI Playground.",
+  "icons": {
+    "48": "icons/icon.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": "icons/icon.png",
+    "default_title": "Playground Enhancer",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "downloads"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://platform.openai.com/*"],
+      "js": ["contentScript.js"]
+    }
+  ]
+}
