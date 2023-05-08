@@ -14,14 +14,17 @@
     "default_title": "Playground Enhancer",
     "default_popup": "popup.html"
   },
-  "permissions": [
-    "activeTab",
-    "downloads"
-  ],
+  "permissions": ["activeTab", "downloads", "scripting"],
   "content_scripts": [
     {
-      "matches": ["*://platform.openai.com/*"],
+      "matches": ["*://platform.openai.com/playground?mode=chat*"],
       "js": ["contentScript.js"]
     }
-  ]
+  ],
+  "commands": {
+    "clear-last": {
+      "suggested_key": "Alt+Delete",
+      "description": "Clear All Messages (except first)"
+    }
+  }
 }

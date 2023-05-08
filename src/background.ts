@@ -1,5 +1,7 @@
 'use strict';
 
+import { clearMessages } from './contentScript';
+
 // With background scripts you can communicate with popup
 // and contentScript files.
 // For more information on background script,
@@ -16,6 +18,21 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // Send a response message
     sendResponse({
       message,
+    });
+  }
+});
+
+chrome.commands.onCommand.addListener(async (command) => {
+  console.log(`Command "${command}" called`);
+
+  if (command === 'clear-last') {
+    const [tab] = await chrome.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id! },
+      func: clearMessages,
     });
   }
 });
