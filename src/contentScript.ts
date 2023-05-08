@@ -89,14 +89,36 @@ function importMessages(messages: Message[]) {
   });
 }
 
-export function clearMessages() {
-  const messages = document.querySelectorAll('.chat-pg-message');
+export async function clearMessages() {
+  const messages = document.querySelectorAll(
+    '.chat-pg-message .chat-message-button-container'
+  );
+  const messagesArray = Array.from(messages).reverse();
+  try {
+    for await (const [index, messageEl] of messagesArray.entries()) {
+      if (index === messagesArray.length - 1) {
+        continue;
+      }
+      try {
+        var event = new MouseEvent('mouseover', {
+          view: window,
+          bubbles: true,
+          cancelable: true,
+        });
 
-  messages.forEach((messageEl, index) => {
-    if (index === 0 || messageEl.classList.contains('add-message')) return;
-    console.log('Removing', index, messageEl);
-    messageEl.remove();
-  });
+        var clickEvent = new MouseEvent('click', {
+          view: window,
+          bubbles: true,
+          cancelable: true,
+        });
+
+        messageEl.parentElement?.dispatchEvent(event);
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        messageEl.firstChild?.dispatchEvent(clickEvent);
+        console.log('Removing', index, messageEl);
+      } catch (error) {}
+    }
+  } catch (error) {}
 }
 
 function clearExistingMessages() {

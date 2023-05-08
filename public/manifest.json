@@ -23,7 +23,7 @@
   ],
   "commands": {
     "clear-last": {
-      "suggested_key": "Alt+Delete",
+      "suggested_key": "Ctrl+Delete",
       "description": "Clear All Messages (except first)"
     }
   }
