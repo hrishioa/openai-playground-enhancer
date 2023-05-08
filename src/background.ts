@@ -1,6 +1,6 @@
 'use strict';
 
-import { clearMessages } from './contentScript';
+import { clearAllButOneMessage } from './contentScript';
 
 // With background scripts you can communicate with popup
 // and contentScript files.
@@ -32,7 +32,7 @@ chrome.commands.onCommand.addListener(async (command) => {
     });
     chrome.scripting.executeScript({
       target: { tabId: tab.id! },
-      func: clearMessages,
+      func: clearAllButOneMessage,
     });
   }
 });

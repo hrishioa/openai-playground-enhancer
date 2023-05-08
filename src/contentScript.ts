@@ -19,13 +19,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     importMessages(request.messages);
   } else if (request.action === 'clearMessages') {
     consoleLog('Clearing messages...');
-    clearMessages();
+    clearAllButOneMessage();
   }
 });
 
-function importMessages(messages: Message[]) {
+async function importMessages(messages: Message[]) {
   // Clear existing messages
-  clearExistingMessages();
+  await clearExistingMessages();
 
   // Process imported messages
   const exchangeContainer = document.querySelector(
@@ -89,7 +89,7 @@ function importMessages(messages: Message[]) {
   });
 }
 
-export async function clearMessages() {
+export async function clearAllButOneMessage() {
   const messages = document.querySelectorAll(
     '.chat-pg-message .chat-message-button-container'
   );
@@ -115,13 +115,12 @@ export async function clearMessages() {
         messageEl.parentElement?.dispatchEvent(event);
         await new Promise((resolve) => setTimeout(resolve, 500));
         messageEl.firstChild?.dispatchEvent(clickEvent);
-        console.log('Removing', index, messageEl);
       } catch (error) {}
     }
   } catch (error) {}
 }
 
-function clearExistingMessages() {
+async function clearExistingMessages() {
   // Clear system message
   const systemTextarea = document.querySelector(
     '.text-input-with-header.chat-pg-instructions textarea'
@@ -130,11 +129,33 @@ function clearExistingMessages() {
     (systemTextarea as any).value = '';
   }
 
-  // const deleteButtons = document.querySelectorAll('.chat-pg-message .chat-message-remove-button');
+  // Clear user + assistant messages
 
-  // deleteButtons.forEach((button) => {
-  //   button.click();
-  // });
+  const messages = document.querySelectorAll(
+    '.chat-pg-message .chat-message-button-container'
+  );
+  const messagesArray = Array.from(messages).reverse();
+  try {
+    for await (const [index, messageEl] of messagesArray.entries()) {
+      try {
+        var event = new MouseEvent('mouseover', {
+          view: window,
+          bubbles: true,
+          cancelable: true,
+        });
+
+        var clickEvent = new MouseEvent('click', {
+          view: window,
+          bubbles: true,
+          cancelable: true,
+        });
+
+        messageEl.parentElement?.dispatchEvent(event);
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        messageEl.firstChild?.dispatchEvent(clickEvent);
+      } catch (error) {}
+    }
+  } catch (error) {}
 }
 
 function getAllMessages() {
