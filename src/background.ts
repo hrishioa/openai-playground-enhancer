@@ -1,6 +1,6 @@
 'use strict';
 
-import { clearAllButOneMessage } from './contentScript';
+import { addNewMessage, clearAllButOneMessage } from './contentScript';
 
 // With background scripts you can communicate with popup
 // and contentScript files.
@@ -25,14 +25,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 chrome.commands.onCommand.addListener(async (command) => {
   console.log(`Command "${command}" called`);
 
-  if (command === 'clear-last') {
-    const [tab] = await chrome.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
+  const [tab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true,
+  });
+  if (command === 'clear-all-but-one') {
     chrome.scripting.executeScript({
       target: { tabId: tab.id! },
       func: clearAllButOneMessage,
+    });
+  } else if (command === 'add-message') {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id! },
+      func: addNewMessage,
     });
   }
 });

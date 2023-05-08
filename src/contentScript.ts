@@ -92,6 +92,23 @@ async function importMessages(messages: Message[]) {
   });
 }
 
+export async function addNewMessage() {
+  const addMessage = document.querySelector('.chat-pg-message.add-message');
+
+  const clickEvent = new MouseEvent('click', {
+    view: window,
+    bubbles: true,
+    cancelable: true,
+  });
+
+  addMessage?.dispatchEvent(clickEvent);
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  const messages = document.querySelectorAll('.chat-pg-message');
+  const textInput = messages[messages.length - 2].children[1].firstChild;
+  // @ts-ignore
+  textInput.focus();
+}
+
 export async function clearAllButOneMessage() {
   const messages = document.querySelectorAll(
     '.chat-pg-message .chat-message-button-container'
@@ -103,20 +120,20 @@ export async function clearAllButOneMessage() {
         continue;
       }
       try {
-        var event = new MouseEvent('mouseover', {
+        const event = new MouseEvent('mouseover', {
           view: window,
           bubbles: true,
           cancelable: true,
         });
 
-        var clickEvent = new MouseEvent('click', {
+        const clickEvent = new MouseEvent('click', {
           view: window,
           bubbles: true,
           cancelable: true,
         });
 
         messageEl.parentElement?.dispatchEvent(event);
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 100));
         messageEl.firstChild?.dispatchEvent(clickEvent);
       } catch (error) {}
     }
@@ -154,7 +171,7 @@ async function clearExistingMessages() {
         });
 
         messageEl.parentElement?.dispatchEvent(event);
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 100));
         messageEl.firstChild?.dispatchEvent(clickEvent);
       } catch (error) {}
     }

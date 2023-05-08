@@ -22,9 +22,13 @@
     }
   ],
   "commands": {
-    "clear-last": {
+    "clear-all-but-one": {
       "suggested_key": "Ctrl+Delete",
       "description": "Clear All Messages (except first)"
+    },
+    "add-message": {
+      "suggested_key": "Alt+Down",
+      "description": "Add a new message"
     }
   }
 }
