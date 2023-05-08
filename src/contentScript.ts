@@ -20,6 +20,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   } else if (request.action === 'clearMessages') {
     consoleLog('Clearing messages...');
     clearAllButOneMessage();
+  } else if (request.action === 'clearAllMessages') {
+    consoleLog('Clearing ALL messages...');
+    clearExistingMessages();
   }
 });
 

@@ -32,6 +32,14 @@ document.getElementById('clear')?.addEventListener('click', async () => {
   else consoleLog('No tab, aborting...');
 });
 
+document.getElementById('clearAll')?.addEventListener('click', async () => {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+  if (tab && tab.id)
+    chrome.tabs.sendMessage(tab.id, { action: 'clearAllMessages' });
+  else consoleLog('No tab, aborting...');
+});
+
 document.getElementById('exportBtn')?.addEventListener('click', async () => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
